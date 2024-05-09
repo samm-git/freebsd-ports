@@ -1,0 +1,60 @@
+--- client/CMakeLists.txt.orig	2024-04-10 06:26:28 UTC
++++ client/CMakeLists.txt
+@@ -26,8 +26,10 @@ DISABLE_MISSING_PROFILE_WARNING()
+ # We are not interesting in profiling clients.
+ DISABLE_MISSING_PROFILE_WARNING()
+ 
++IF(WITHOUT_SERVER)
+ ## Subdirectory for mysql_migrate_keyring code.
+ ADD_SUBDIRECTORY(migrate_keyring)
++ENDIF()
+ 
+ MYSQL_ADD_EXECUTABLE(mysql
+   ${CMAKE_SOURCE_DIR}/sql-common/net_ns.cc
+@@ -43,6 +45,7 @@ MYSQL_ADD_EXECUTABLE(mysql
+   LINK_LIBRARIES mysqlclient ${EDITLINE_LIBRARY}
+   )
+ 
++IF(NOT WITHOUT_SERVER)
+ MYSQL_ADD_EXECUTABLE(mysqltest
+   mysqltest.cc
+   mysqltest/error_names.cc
+@@ -57,8 +60,11 @@ MYSQL_ADD_EXECUTABLE(mysqltest
+   COMPONENT Test
+   DEPENDENCIES GenError GenClientError
+   ENABLE_EXPORTS
+-  LINK_LIBRARIES mysqlclient
++  LINK_LIBRARIES mysqlclient OpenSSL::SSL OpenSSL::Crypto
+   )
++ENDIF()
++
++IF(WITHOUT_SERVER)
+ MYSQL_ADD_EXECUTABLE(mysqlcheck
+   check/mysqlcheck.cc
+   check/mysqlcheck_core.cc
+@@ -274,7 +280,9 @@ TARGET_INCLUDE_DIRECTORIES(mysqlbinlog PRIVATE ${CMAKE
+ 
+ TARGET_COMPILE_DEFINITIONS(mysqlbinlog PRIVATE DISABLE_PSI_MUTEX)
+ TARGET_INCLUDE_DIRECTORIES(mysqlbinlog PRIVATE ${CMAKE_SOURCE_DIR}/sql)
++ENDIF()
+ 
++IF(WITHOUT_SERVER)
+ MYSQL_ADD_EXECUTABLE(mysqladmin
+   mysqladmin.cc
+   multi_factor_passwordopt-vars.cc
+@@ -289,10 +297,14 @@ MYSQL_ADD_EXECUTABLE(mysql_config_editor
+   mysql_config_editor.cc
+   LINK_LIBRARIES mysqlclient
+   )
++ENDIF()
++
++IF(NOT WITHOUT_SERVER)
+ MYSQL_ADD_EXECUTABLE(mysql_secure_installation
+   mysql_secure_installation.cc
+-  LINK_LIBRARIES mysqlclient
++  LINK_LIBRARIES mysqlclient OpenSSL::SSL OpenSSL::Crypto
+   )
++ENDIF()
+ 
+ # "WIN32" also covers 64 bit. "echo" is used in some files below "mysql-test/".
+ IF(WIN32)
