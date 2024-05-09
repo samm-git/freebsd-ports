@@ -1,5 +1,5 @@
---- cmake/ssl.cmake.orig	2023-12-18 11:13:09.203932000 +0100
-+++ cmake/ssl.cmake	2023-12-18 17:58:00.139313000 +0100
+--- cmake/ssl.cmake.orig	2023-10-12 11:40:36 UTC
++++ cmake/ssl.cmake
 @@ -155,7 +155,7 @@ MACRO(FIND_OPENSSL_VERSION)
      # Encoded as MNNFFPPS: major minor fix patch status
      FILE(STRINGS "${OPENSSL_INCLUDE_DIR}/openssl/opensslv.h"

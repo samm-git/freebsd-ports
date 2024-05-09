@@ -1,5 +1,5 @@
---- sql/conn_handler/socket_connection.cc.orig	2023-12-18 18:08:35.399147000 +0100
-+++ sql/conn_handler/socket_connection.cc	2023-12-18 18:14:55.225368000 +0100
+--- sql/conn_handler/socket_connection.cc.orig	2023-10-12 11:40:36 UTC
++++ sql/conn_handler/socket_connection.cc
 @@ -960,9 +960,11 @@ bool check_connection_refused_by_tcp_wrapper(MYSQL_SOC
    signal(SIGCHLD, SIG_DFL);
    request_init(&req, RQ_DAEMON, libwrap_name, RQ_FILE,

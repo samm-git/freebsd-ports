@@ -1,8 +1,8 @@
---- cmake/os/FreeBSD.cmake.orig	2021-12-17 16:07:27 UTC
+--- cmake/os/FreeBSD.cmake.orig	2023-10-12 11:40:36 UTC
 +++ cmake/os/FreeBSD.cmake
-@@ -48,8 +48,20 @@ IF(NOT FORCE_UNSUPPORTED_COMPILER)
-     IF(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.1)
-       MESSAGE(FATAL_ERROR "GCC 7.1 or newer is required")
+@@ -43,7 +43,19 @@ IF(NOT FORCE_UNSUPPORTED_COMPILER)
+     IF(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 10)
+       MESSAGE(FATAL_ERROR "Clang 10 or newer is required!")
      ENDIF()
 -  ELSE()
 -    MESSAGE(FATAL_ERROR "Unsupported compiler!")
@@ -22,4 +22,3 @@
 +    ENDIF()
    ENDIF()
  ENDIF()
- 

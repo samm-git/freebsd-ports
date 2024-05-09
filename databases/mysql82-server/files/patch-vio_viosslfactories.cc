@@ -1,14 +1,14 @@
---- vio/viosslfactories.cc.orig	2023-06-21 07:52:10 UTC
+--- vio/viosslfactories.cc.orig	2023-10-12 11:40:36 UTC
 +++ vio/viosslfactories.cc
 @@ -45,6 +45,7 @@
- #include <dh_ecdh_config.h>
+ #include <tls_ciphers.h>
  
  #include "my_openssl_fips.h"
 +#include "openssl/crypto.h"
  #define TLS_VERSION_OPTION_SIZE 256
  
- /*
-@@ -422,7 +423,7 @@ long process_tls_version(const char *tls_version) {
+ static bool ssl_initialized = false;
+@@ -333,7 +334,7 @@ long process_tls_version(const char *tls_version) {
    const char *separator = ",";
    char *token, *lasts = nullptr;
  
@@ -17,7 +17,7 @@
    const char *tls_version_name_list[] = {"TLSv1.2", "TLSv1.3"};
    const char ctx_flag_default[] = "TLSv1.2,TLSv1.3";
    const long tls_ctx_list[] = {SSL_OP_NO_TLSv1_2, SSL_OP_NO_TLSv1_3};
-@@ -494,7 +495,7 @@ static struct st_VioSSLFd *new_VioSSLFd(
+@@ -404,7 +405,7 @@ static struct st_VioSSLFd *new_VioSSLFd(
    ssl_ctx_options = (ssl_ctx_options | ssl_ctx_flags) &
                      (SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3 | SSL_OP_NO_TLSv1 |
                       SSL_OP_NO_TLSv1_1 | SSL_OP_NO_TLSv1_2
@@ -26,7 +26,7 @@
                       | SSL_OP_NO_TLSv1_3
  #endif /* HAVE_TLSv13 */
                       | SSL_OP_NO_TICKET);
-@@ -503,7 +504,7 @@ static struct st_VioSSLFd *new_VioSSLFd(
+@@ -413,7 +414,7 @@ static struct st_VioSSLFd *new_VioSSLFd(
      return nullptr;
  
    if (!(ssl_fd->ssl_context = SSL_CTX_new(is_client ?
@@ -35,7 +35,7 @@
                                                      TLS_client_method()
                                                      : TLS_server_method()
  #else  /* HAVE_TLSv13 */
-@@ -518,7 +519,7 @@ static struct st_VioSSLFd *new_VioSSLFd(
+@@ -428,7 +429,7 @@ static struct st_VioSSLFd *new_VioSSLFd(
      return nullptr;
    }
  

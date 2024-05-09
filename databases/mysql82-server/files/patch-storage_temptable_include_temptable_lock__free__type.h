@@ -1,4 +1,4 @@
---- storage/temptable/include/temptable/lock_free_type.h.orig	2023-06-21 07:52:10 UTC
+--- storage/temptable/include/temptable/lock_free_type.h.orig	2023-10-12 11:40:36 UTC
 +++ storage/temptable/include/temptable/lock_free_type.h
 @@ -32,6 +32,14 @@ Lock-free type (selection) implementation. */
  #include "my_config.h"
@@ -14,4 +14,4 @@
 +
  namespace temptable {
  
- /** Clang has a bug which causes ATOMIC_LLONG_LOCK_FREE to be defined as 1
+ /** Enum class describing alignment-requirements. */

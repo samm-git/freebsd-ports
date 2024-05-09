@@ -1,6 +1,6 @@
---- CMakeLists.txt.orig	2023-06-21 07:52:10 UTC
+--- CMakeLists.txt.orig	2023-10-12 11:40:36 UTC
 +++ CMakeLists.txt
-@@ -1850,7 +1850,7 @@ IF(WITH_AUTHENTICATION_LDAP)
+@@ -1881,7 +1881,7 @@ IF(WITH_AUTHENTICATION_LDAP)
  ENDIF()
  
  IF(WITH_AUTHENTICATION_LDAP)
@@ -9,7 +9,7 @@
      # LDAP / SASL / KERBEROS / SSL must all be "system" or "custom", not a mix.
      IF(WITH_LDAP STREQUAL "system" OR
          WITH_SASL STREQUAL "system" OR
-@@ -1899,6 +1899,7 @@ ENDIF()
+@@ -1930,6 +1930,7 @@ ENDIF()
    ENDIF()
  ENDIF()
  
@@ -17,7 +17,7 @@
  # Add system/bundled editline.
  MYSQL_CHECK_EDITLINE()
  SET(EDITLINE_WARN_GIVEN)
-@@ -1909,7 +1910,9 @@ ENDIF()
+@@ -1940,7 +1941,9 @@ ENDIF()
      "You can use -DWITH_EDITLINE=bundled instead."
      )
  ENDIF()
@@ -27,7 +27,7 @@
  # Add libevent
  MYSQL_CHECK_LIBEVENT()
  UNSET(LIBEVENT_WARN_GIVEN)
-@@ -1920,6 +1923,7 @@ ENDIF()
+@@ -1951,6 +1954,7 @@ ENDIF()
      "You can use -DWITH_LIBEVENT=bundled instead."
      )
  ENDIF()
@@ -35,7 +35,7 @@
  
  # Add lz4 library
  MYSQL_CHECK_LZ4()
-@@ -2186,7 +2190,9 @@ ADD_DEPENDENCIES(clang_tidy_prerequisites GenError)
+@@ -2235,7 +2239,9 @@ ADD_DEPENDENCIES(clang_tidy_prerequisites GenError)
  ADD_DEPENDENCIES(clang_tidy_prerequisites protobuf_generated_all)
  ADD_DEPENDENCIES(clang_tidy_prerequisites GenError)
  
@@ -46,7 +46,7 @@
  ADD_SUBDIRECTORY(strings)
  ADD_SUBDIRECTORY(vio)
  ADD_SUBDIRECTORY(mysys)
-@@ -2232,12 +2238,15 @@ ENDIF()
+@@ -2281,12 +2287,15 @@ ENDIF()
    ADD_SUBDIRECTORY(unittest/mytap/t)
  ENDIF()
  
@@ -64,7 +64,7 @@
    ADD_SUBDIRECTORY(testclients)
    ADD_SUBDIRECTORY(sql)
  ENDIF()
-@@ -2300,11 +2309,11 @@ ADD_SUBDIRECTORY(scripts)
+@@ -2361,11 +2370,11 @@ ADD_SUBDIRECTORY(scripts)
  # scripts/mysql_config depends on client and server targets loaded above.
  # It is referenced by some of the directories below, so we insert it here.
  ADD_SUBDIRECTORY(scripts)
@@ -77,7 +77,7 @@
    IF(WITH_INTERNAL)
      ADD_SUBDIRECTORY(internal)
    ENDIF()
-@@ -2331,6 +2340,7 @@ ENDIF()
+@@ -2392,6 +2401,7 @@ ENDIF()
    INCLUDE(fastcov)
  ENDIF()
  
@@ -85,7 +85,7 @@
  IF(UNIX)
    ADD_SUBDIRECTORY(man)
  ENDIF()
-@@ -2530,6 +2540,7 @@ IF(NOT INSTALL_LAYOUT MATCHES "RPM")
+@@ -2591,6 +2601,7 @@ IF(NOT INSTALL_LAYOUT MATCHES "RPM")
      PATTERN "sp-imp-spec.txt" EXCLUDE
      PATTERN "README.build" EXCLUDE
    )

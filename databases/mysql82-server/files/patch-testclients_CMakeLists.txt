@@ -1,0 +1,11 @@
+--- testclients/CMakeLists.txt.orig	2024-05-09 08:52:51 UTC
++++ testclients/CMakeLists.txt
+@@ -23,7 +23,7 @@ MYSQL_ADD_EXECUTABLE(mysql_client_test mysql_client_te
+ ADD_WSHADOW_WARNING()
+ 
+ MYSQL_ADD_EXECUTABLE(mysql_client_test mysql_client_test.cc COMPONENT Test)
+-TARGET_LINK_LIBRARIES(mysql_client_test mysqlclient extra::rapidjson)
++TARGET_LINK_LIBRARIES(mysql_client_test mysqlclient extra::rapidjson OpenSSL::SSL OpenSSL::Crypto)
+ 
+ IF(WITH_UNIT_TESTS)
+   MYSQL_ADD_EXECUTABLE(bug25714 bug25714.cc SKIP_INSTALL)
