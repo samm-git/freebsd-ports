@@ -9,10 +9,8 @@ bin/myisampack
 bin/mysql_client_test
 bin/mysql_keyring_encryption_test
 bin/mysql_secure_installation
-bin/mysql_ssl_rsa_setup
 bin/mysql_test_event_tracking
 bin/mysql_tzinfo_to_sql
-bin/mysql_upgrade
 bin/mysqld_multi
 bin/mysqld_safe
 bin/mysqldumpslow
@@ -46,7 +44,8 @@ lib/mysql/libmysqlrouter_io_component.so.1
 lib/mysql/libmysqlrouter_metadata_cache.so.1
 lib/mysql/libmysqlrouter_mysqlxmessages.so.1
 lib/mysql/libmysqlrouter_routing.so.1
-lib/mysql/libprotobuf-lite.so.3.19.4
+lib/mysql/libmysqlrouter_routing_connections.so.1
+lib/mysql/libprotobuf-lite.so.24.4.0
 lib/mysql/mysqlrouter/connection_pool.so
 lib/mysql/mysqlrouter/destination_status.so
 lib/mysql/mysqlrouter/http_auth_backend.so
@@ -177,6 +176,10 @@ lib/mysql/plugin/semisync_master.so
 lib/mysql/plugin/semisync_replica.so
 lib/mysql/plugin/semisync_slave.so
 lib/mysql/plugin/semisync_source.so
+lib/mysql/plugin/component_test_execute_prepared_statement.so
+lib/mysql/plugin/component_test_execute_regular_statement.so
+lib/mysql/plugin/component_test_mysql_signal_handler.so
+lib/mysql/plugin/component_test_server_telemetry_metrics.so
 lib/mysql/plugin/test_security_context.so
 lib/mysql/plugin/test_services_command_services.so
 lib/mysql/plugin/test_services_host_application_signal.so
@@ -185,8 +188,8 @@ lib/mysql/plugin/test_udf_services.so
 lib/mysql/plugin/udf_example.so
 lib/mysql/plugin/validate_password.so
 lib/mysql/plugin/version_token.so
-lib/mysql/private/libprotobuf-lite.so.3.19.4
-lib/mysql/private/libprotobuf.so.3.19.4
+lib/mysql/private/libprotobuf-lite.so.24.4.0
+lib/mysql/private/libprotobuf.so.24.4.0
 libexec/mysqld
 %%DATADIR%%/bulgarian/errmsg.sys
 %%DATADIR%%/charsets/Index.xml

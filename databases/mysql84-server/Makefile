@@ -196,11 +196,6 @@ BROKEN=	Does not work with OpenSSL 1.1.X
 post-extract:
 	@${RM} -rv ${WRKSRC}/sql/sql_hints.yy.cc ${WRKSRC}/sql/sql_hints.yy.h
 
-# This can be removed after FreeBSD 12.4 and 13.1 EoL
-.if defined(CLIENT_ONLY) && !exists(${OPENSSLBASE}/libdata/pkgconfig/openssl.pc)
-EXTRA_PATCHES+=	${PATCHDIR}/extra-patch-scripts_CMakeLists.txt
-.endif
-
 .if !defined(CLIENT_ONLY)
 post-install:
 	${MKDIR} ${STAGEDIR}${ETCDIR}

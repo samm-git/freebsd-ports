@@ -22,7 +22,7 @@
  static Sys_var_charptr Sys_admin_tls_version(
      "admin_tls_version",
 -#ifdef HAVE_TLSv13
-+if defined(HAVE_TLSv13) && !defined(LIBRESSL_VERSION_NUMBER)
++#if defined(HAVE_TLSv13) && !defined(LIBRESSL_VERSION_NUMBER)
      "TLS version for --admin-port, permitted values are TLSv1.2, TLSv1.3",
  #else
      "TLS version for --admin-port, permitted values are TLSv1.2",
