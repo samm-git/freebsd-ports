@@ -38,7 +38,7 @@
  
  # Visual Studio users need debug  static library for debug projects
  IF(MSVC)
-@@ -358,17 +371,27 @@ ENDIF()
+@@ -358,6 +371,7 @@ ENDIF()
  
  # Merge several convenience libraries into one big mysqlclient
  # and link them together into shared library.
@@ -46,9 +46,10 @@
  MERGE_LIBRARIES_SHARED(libmysql ${LIBS_TO_MERGE}
    EXPORTS
    ${CLIENT_API_FUNCTIONS}
-   ${CLIENT_API_FUNCTIONS_UNDOCUMENTED}
+@@ -365,10 +379,20 @@ MERGE_LIBRARIES_SHARED(libmysql ${LIBS_TO_MERGE}
    ${CLIENT_API_NONBLOCKING_FUNCTIONS}
    COMPONENT SharedLibraries
+   LINK_LIBRARIES ${LIBS_TO_LINK}
 +  SKIP_INSTALL )
 +ELSE(WITHOUT_CLIENTLIBS)
 +MERGE_LIBRARIES_SHARED(libmysql ${LIBS_TO_MERGE}
@@ -57,7 +58,7 @@
 +  ${CLIENT_API_FUNCTIONS_UNDOCUMENTED}
 +  ${CLIENT_API_NONBLOCKING_FUNCTIONS}
 +  COMPONENT SharedLibraries
-   LINK_LIBRARIES ${LIBS_TO_LINK}
++  LINK_LIBRARIES ${LIBS_TO_LINK}
    ${UNIX_OUTPUT_NAME}
    ${UNIX_SOVERSION}
    ${UNIX_VERSION}
