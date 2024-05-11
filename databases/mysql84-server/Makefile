@@ -4,7 +4,6 @@ PORTREVISION?=		0
 CATEGORIES=		databases
 MASTER_SITES=		MYSQL/MySQL-8.4
 PKGNAMESUFFIX?=		84-server
-DISTNAME=		${PORTNAME}-${PORTVERSION}${DISTVERSIONSUFFIX}
 
 MAINTAINER=		joneum@FreeBSD.org
 COMMENT?=		Multithreaded SQL database (server)
@@ -12,7 +11,11 @@ WWW=		https://www.mysql.com/
 
 LICENSE=		GPLv2
 
-NOT_FOR_ARCHS= i386 armv6 armv7 # MySQL8.2+ supports only 64-bit platforms
+USES=		bison:build cmake:noninja cpe groff:run libedit localbase \
+		ncurses perl5 pkgconfig shebangfix ssl
+
+# Remove after 13.x EoL
+NOT_FOR_ARCHS= i386 armv6 armv7 powerpc # MySQL8.2+ supports only 64-bit platforms
 
 IGNORE_SSL=	openssl30 openssl31
 IGNORE_SSL_REASON=	Upstream only supports OpenSSL 1.0.1 upto 1.1.X
@@ -20,8 +23,6 @@ IGNORE_SSL_REASON=	Upstream only supports OpenSSL 1.0.1 upto 1.1.X
 WRKSRC=		${WRKDIR}/${PORTNAME}-${PORTVERSION}${DISTVERSIONSUFFIX}
 
 SLAVEDIRS=	databases/mysql84-client
-USES=		bison:build cmake:noninja cpe groff:run libedit localbase \
-		ncurses perl5 pkgconfig shebangfix ssl
 
 CPE_VENDOR=	oracle
 
@@ -41,7 +42,6 @@ LIB_DEPENDS+=	libcurl.so:ftp/curl \
 		${LIB_DEPENDS_${ARCH}}
 LIB_DEPENDS_aarch64=	libunwind.so:devel/libunwind
 LIB_DEPENDS_amd64=	libunwind.so:devel/libunwind
-LIB_DEPENDS_powerpc=		libunwind.so:devel/libunwind
 LIB_DEPENDS_powerpc64=		libunwind.so:devel/libunwind
 LIB_DEPENDS_powerpc64le=	libunwind.so:devel/libunwind
 
@@ -49,8 +49,6 @@ BUILD_DEPENDS=	liblz4>0:archivers/liblz4 \
 		${BUILD_DEPENDS_${ARCH}}
 BUILD_DEPENDS_aarch64=	libunwind>0:devel/libunwind
 BUILD_DEPENDS_amd64=	libunwind>0:devel/libunwind
-BUILD_DEPENDS_armv7=	libunwind>0:devel/libunwind
-BUILD_DEPENDS_powerpc=	libunwind>0:devel/libunwind
 BUILD_DEPENDS_powerpc64=	libunwind>0:devel/libunwind
 BUILD_DEPENDS_powerpc64le=	libunwind>0:devel/libunwind
 
@@ -78,7 +76,6 @@ CMAKE_ARGS+=	-DINSTALL_LAYOUT=FREEBSD \
 		-DINSTALL_SECURE_FILE_PRIVDIR="${MY_SECDIR}" \
 		-DINSTALL_SHAREDIR="share" \
 		-DINSTALL_SUPPORTFILESDIR="share/mysql" \
-		-DMYSQL_KEYRINGDIR="${ETCDIR}/keyring" \
 		-DWITH_BOOST="${WRKSRC}/boost" \
 		-DWITH_SYSTEM_LIBS=1 \
 		-DWITH_EDITLINE=system \
@@ -89,9 +86,8 @@ CMAKE_ARGS+=	-DINSTALL_LAYOUT=FREEBSD \
 		-DWITH_ZSTD=bundled \
 		-DWITH_PROTOBUF=bundled \
 		-DWITH_SSL=system \
-		-DWITH_AUTHENTICATION_FIDO=1 \
-		-DBUILD_BUNDLED_ZLIB=0 \
-		-DBUILD_BUNDLED_LZ4=0
+		-DWITH_ZLIB=system \
+		-DWITH_LZ4=system
 
 # The Mroonga, RocksDB, and TokuDB storage engines are disabled.
 # Mroonga is only buildable on little endian archs.
@@ -104,7 +100,7 @@ CMAKE_ARGS+=	-DWITHOUT_MROONGA_STORAGE_ENGINE=1 \
 SHEBANG_FILES=	scripts/*.pl* scripts/*.sh
 
 .ifdef USE_MYSQL
-IGNORE=		You have `USE_MYSQL' variable defined either in environment or in make(1) arguments. Please undefine and try again.
+IGNORE=		you have `USE_MYSQL' variable defined either in environment or in make(1) arguments, please undefine and try again
 .endif
 
 SUB_LIST=	MY_DBDIR=${MY_DBDIR} \
@@ -190,7 +186,7 @@ USES+=		compiler:c++20-lang
 .include <bsd.port.pre.mk>
 
 .if ( ${OPSYS} == FreeBSD && ${OSVERSION} < 1400000 && ${SSL_DEFAULT} == base )
-BROKEN=	Does not work with OpenSSL 1.1.X
+BROKEN=	does not work with OpenSSL 1.1.X
 .endif
 
 post-extract:
