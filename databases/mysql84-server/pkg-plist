@@ -125,6 +125,7 @@ lib/mysql/plugin/component_udf_unreg_3_func.so
 lib/mysql/plugin/component_udf_unreg_int_func.so
 lib/mysql/plugin/component_udf_unreg_real_func.so
 lib/mysql/plugin/component_validate_password.so
+lib/mysql/plugin/component_keyring_file.so
 lib/mysql/plugin/conflicting_variables.so
 lib/mysql/plugin/connection_control.so
 lib/mysql/plugin/daemon_example.ini
@@ -132,7 +133,6 @@ lib/mysql/plugin/ddl_rewriter.so
 lib/mysql/plugin/group_replication.so
 lib/mysql/plugin/ha_example.so
 lib/mysql/plugin/ha_mock.so
-lib/mysql/plugin/keyring_file.so
 lib/mysql/plugin/keyring_udf.so
 lib/mysql/plugin/libdaemon_example.so
 lib/mysql/plugin/libtest_framework.so
