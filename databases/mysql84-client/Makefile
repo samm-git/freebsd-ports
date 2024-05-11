@@ -6,8 +6,9 @@ COMMENT=	Multithreaded SQL database (client)
 
 LICENSE+=	LGPL21
 
-# Remove after 13.x EoL
-NOT_FOR_ARCHS= i386 armv6 armv7 powerpc # MySQL8.2+ supports only 64-bit platforms
+# MySQL8.2+ supports only 64-bit platforms
+# Review list after 13.x EoL
+NOT_FOR_ARCHS= armv6 armv7 i386 powerpc
 
 MASTERDIR=	${.CURDIR}/../mysql84-server
 

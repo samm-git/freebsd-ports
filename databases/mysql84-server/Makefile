@@ -11,11 +11,12 @@ WWW=		https://www.mysql.com/
 
 LICENSE=		GPLv2
 
-USES=		bison:build cmake:noninja cpe groff:run libedit localbase \
-		ncurses perl5 pkgconfig shebangfix ssl
+# MySQL8.2+ supports only 64-bit platforms
+# Review list after 13.x EoL
+NOT_FOR_ARCHS= armv6 armv7 i386 powerpc
 
-# Remove after 13.x EoL
-NOT_FOR_ARCHS= i386 armv6 armv7 powerpc # MySQL8.2+ supports only 64-bit platforms
+USES=		bison:build cmake:noninja cpe groff:run libedit localbase \
+		ncurses perl5 pkgconfig shebangfix ssl compiler:c++20-lang
 
 IGNORE_SSL=	openssl30 openssl31
 IGNORE_SSL_REASON=	Upstream only supports OpenSSL 1.0.1 upto 1.1.X
@@ -34,11 +35,10 @@ MY_SECDIR=	/var/db/mysql_secure
 MY_TMPDIR=	/var/db/mysql_tmpdir
 
 LIB_DEPENDS+=	libcurl.so:ftp/curl \
-		libevent.so:devel/libevent \
 		libicutu.so:devel/icu \
 		liblz4.so:archivers/liblz4 \
-		libfido2.so:security/libfido2 \
 		libhidapi.so:comms/hidapi \
+		libfido2.so:security/libfido2 \
 		${LIB_DEPENDS_${ARCH}}
 LIB_DEPENDS_aarch64=	libunwind.so:devel/libunwind
 LIB_DEPENDS_amd64=	libunwind.so:devel/libunwind
@@ -79,7 +79,6 @@ CMAKE_ARGS+=	-DINSTALL_LAYOUT=FREEBSD \
 		-DWITH_BOOST="${WRKSRC}/boost" \
 		-DWITH_SYSTEM_LIBS=1 \
 		-DWITH_EDITLINE=system \
-		-DWITH_LIBEVENT=system \
 		-DWITH_LZ4=system \
 		-DWITH_ICU=system \
 		-DWITH_CURL=system \
@@ -88,14 +87,6 @@ CMAKE_ARGS+=	-DINSTALL_LAYOUT=FREEBSD \
 		-DWITH_SSL=system \
 		-DWITH_ZLIB=system \
 		-DWITH_LZ4=system
-
-# The Mroonga, RocksDB, and TokuDB storage engines are disabled.
-# Mroonga is only buildable on little endian archs.
-# RocksDB is only buildable on little endian archs and requires POSIX timers.
-# TokuDB is only buildable on 64-bit little endian archs.
-CMAKE_ARGS+=	-DWITHOUT_MROONGA_STORAGE_ENGINE=1 \
-		-DWITHOUT_ROCKSDB_STORAGE_ENGINE=1 \
-		-DWITHOUT_TOKUDB_STORAGE_ENGINE=1
 
 SHEBANG_FILES=	scripts/*.pl* scripts/*.sh
 
@@ -136,7 +127,6 @@ MMAN1=		ibd2sdi.1 innochecksum.1 my_print_defaults.1 myisam_ftdump.1 myisamchk.1
 		mysqld_safe.1 mysqlrouter_passwd.1 mysqlrouter_plugin_info.1 mysqlrouter.1
 MMAN8=		mysqld.8
 
-CMAKE_ARGS+=	-DWITH_EMBEDDED_SERVER="ON"
 CMAKE_ARGS+=	-DWITHOUT_CLIENTLIBS="ON"
 # Disable unit tests, it fails on !amd64 and <13.0 due to c++17 rules
 CMAKE_ARGS+=	-DWITH_UNIT_TESTS="OFF"
@@ -168,6 +158,8 @@ PERFSCHM_DESC=		Enable "Performance Schema" by default (High RAM usage)
 OPTIONS_DEFAULT+=	PERFSCHM
 
 PERFSCHM_SUB_LIST+=		PERFSCHEMRC=""
+# todo, likely broken, see
+# https://dev.mysql.com/doc/refman/8.4/en/source-configuration-options.html
 PERFSCHM_SUB_LIST_OFF+=		PERFSCHEMRC="--skip-performance-schema"
 FEDERATED_SUB_LIST+=		FEDER="--federated"
 FEDERATED_SUB_LIST_OFF+=	FEDER=""
@@ -175,13 +167,7 @@ FEDERATED_SUB_LIST_OFF+=	FEDER=""
 
 .include <bsd.port.options.mk>
 
-.if ${ARCH} == powerpc
-LDFLAGS+=	-latomic
-USES+=		compiler:gcc-c++11-lib
-.else
 CXXFLAGS+=	-malign-double
-USES+=		compiler:c++20-lang
-.endif
 
 .include <bsd.port.pre.mk>
 
