@@ -171,10 +171,6 @@ CXXFLAGS+=	-malign-double
 
 .include <bsd.port.pre.mk>
 
-.if ( ${OPSYS} == FreeBSD && ${OSVERSION} < 1400000 && ${SSL_DEFAULT} == base )
-BROKEN=	does not work with OpenSSL 1.1.X
-.endif
-
 post-extract:
 	@${RM} -rv ${WRKSRC}/sql/sql_hints.yy.cc ${WRKSRC}/sql/sql_hints.yy.h
 
