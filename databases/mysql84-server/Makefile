@@ -18,9 +18,6 @@ NOT_FOR_ARCHS= armv6 armv7 i386 powerpc
 USES=		bison:build cmake:noninja cpe groff:run libedit localbase \
 		ncurses perl5 pkgconfig shebangfix ssl compiler:c++20-lang
 
-IGNORE_SSL=	openssl30 openssl31
-IGNORE_SSL_REASON=	Upstream only supports OpenSSL 1.0.1 upto 1.1.X
-
 WRKSRC=		${WRKDIR}/${PORTNAME}-${PORTVERSION}${DISTVERSIONSUFFIX}
 
 SLAVEDIRS=	databases/mysql84-client
